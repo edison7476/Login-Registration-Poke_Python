@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+  <!--{{user}}<br>
+  session ID: {{session['id']}}<br> -->
+<a href="/logout">Logout</a>
+<h2>Welcome, {{user['name']|capitalize() }}</h2>
+<h3> {{counter[0]['counter']}} People poked you! </h3><br>
+
+
+<div class="col-xs-12 col-sm-6 col-md-6">
+<div class="jumbotron">
+
+{% if whoPoke%}
+{% for who in whoPoke%}
+<h4>{{ who['name']|capitalize() }} poked you {{ who['counts'] }} times!</h4>
+{% endfor %}
+{% endif %}
+</div>
+</div>
+<br>
+
+<table class="table table-striped">
+  {%if users%}
+    <tr>
+      <td>Name</td>
+      <td>Alias</td>
+      <td>Email Addres</td>
+      <td>Poke History</td>
+      <td>Action</td>
+    </tr> 
+  {% for user in users %}
+    {% if user['id'] != session['id'] %}
+    <tr>
+      <td>{{user['name'] }} </td>
+      <td>{{user['aliad'] }}</td>
+      <td>{{user['email'] }}</td>
+      <td>{{user['counts'] }}</td>
+      <td>
+        <form action="/poke_user/{{ user['id'] }}" method="POST">
+          <input type="submit" value="Poke!">
+        </form>
+      </td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+</table>
+
+  </body>
+</html>
